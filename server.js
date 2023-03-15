@@ -42,6 +42,32 @@ app.get('/del_user',(req, res)=> {
   }
 })
 
+const categories = ['horror','comedy']
+
+app.get('/categories',(req,res)=>{
+    res.send(categories)
+})
+
+app.get('/add_categories',(req,res)=>{
+    if(req.query.name){
+        categories.push(req.query.name)
+        res.send('categories added')
+    }else{
+        res.send('please provide categories')
+    }
+})
+
+app.get('/delete_user',(req,res)=>{
+    if(req.query.name){
+        categories = categories.filter((category)=>{
+            return category !== req.query.name
+        })
+        res.send('category deleted')
+    }else{
+        res.send('please provide categry')
+    }
+})
+
 app.listen(PORT,()=>{
-  console.log(`server is runnning pn port ${PORT}`)
+  console.log(`server is runnning On port ${PORT}`)
 })
