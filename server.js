@@ -11,6 +11,7 @@ app.get('/users',(req, res)=> {
 
 
 // 127.0.0.1:3000/add_user?name=sagar
+console.log("gaurab magar")
 
 app.get('/add_user',(req, res)=> {
   if(req.query.name){
