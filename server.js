@@ -1,30 +1,44 @@
 const express = require('express')
 const app = express()
 app.use(express.urlencoded({extended:true}))
+const uuidv4 = require('uuid').v4
+
 
 PORT = 3000
-let users= ['ram','shyam']
+let users= [
+  {
+    name:"user1",
+    id: uuidv4(),
+    email:"user1@gmail.com"
+  },
+  {
+    name:"user2",
+    id: uuidv4(),
+    email:"user2@gmail.com"
+  }
+]
+let categories= [
+  {
+    id: uuidv4(),
+    type:"horror"
+  },
+  {
+    id: uuidv4(),
+    type:"funny"
+  }
+]
 
 app.get('/users',(req, res)=> {
   res.send(users)
 })
 
-
-// 127.0.0.1:3000/add_user?name=sagar
-console.log("gaurab magar")
-
-app.get('/add_user',(req, res)=> {
-  if(req.query.name){
-    users.push(req.query.name)
-    res.send("user added")
-  }else{
-    res.send("please provide name")
-  }
-})
-
 app.post('/add_post',(req, res)=> {
-  if(req.body.name){
-    users.push(req.body.name)
+  if(req.body.name && req.body.email){
+      users.push({
+        id: uuidv4(),
+        name: req.body.name,
+        email: req.body.email
+    })
     res.send(" added name")
   }else{
     res.send('please provide name')
@@ -32,9 +46,9 @@ app.post('/add_post',(req, res)=> {
 })
 
 app.get('/del_user',(req, res)=> {
-  if(req.query.name){
+  if(req.query.id){
     users=users.filter((user)=>{
-      return user !== req.query.name
+      return user.id !== req.query.id
     })
     res.send("user deleted")
   }else{
@@ -42,15 +56,17 @@ app.get('/del_user',(req, res)=> {
   }
 })
 
-const categories = ['horror','comedy']
 
 app.get('/categories',(req,res)=>{
     res.send(categories)
 })
 
 app.get('/add_categories',(req,res)=>{
-    if(req.query.name){
-        categories.push(req.query.name)
+    if(req.query.type){
+        categories.push({
+          id:uuidv4(),
+          type: req.body.type
+        })
         res.send('categories added')
     }else{
         res.send('please provide categories')
@@ -58,9 +74,9 @@ app.get('/add_categories',(req,res)=>{
 })
 
 app.get('/delete_user',(req,res)=>{
-    if(req.query.name){
+    if(req.query.id){
         categories = categories.filter((category)=>{
-            return category !== req.query.name
+            return category.id !== req.query.id
         })
         res.send('category deleted')
     }else{
@@ -71,3 +87,4 @@ app.get('/delete_user',(req,res)=>{
 app.listen(PORT,()=>{
   console.log(`server is runnning On port ${PORT}`)
 })
+console.log(uuidv4())
